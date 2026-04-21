@@ -44,12 +44,12 @@ void insertAtlast(struct Node** head, int a){
     (*temp2).link = temp1;
 }
 
-void insertAtN(struct Node** head, int a, int n){
+int insertAtN(struct Node** head, int a, int n){
     int num = NoOfNodes(*head);
 
     if(n > num || n < 1){
         printf("ERROR : Invalid Position\n");
-        return;
+        return 1;
     }
 
     struct Node* temp1 = (struct Node*) malloc (sizeof(struct Node));
@@ -59,7 +59,7 @@ void insertAtN(struct Node** head, int a, int n){
     if(1 == n){
         (*temp1).link = *head;
         *head = temp1;
-        return;
+        return 0;
     }
 
     struct Node* temp2 = *head;
@@ -70,7 +70,7 @@ void insertAtN(struct Node** head, int a, int n){
 
     (*temp1).link = (*temp2).link;
     (*temp2).link = temp1;
-
+    return 0;
 }
 
 void deleteAtB (struct Node** head){
@@ -109,13 +109,13 @@ void deleteAtLast(struct Node** head){
 
 }
 
-void deleteAtN(struct Node** head, int n){
+int deleteAtN(struct Node** head, int n){
 
     int num = NoOfNodes(*head);
 
     if(n > num || n < 1){
         printf("ERROR : Invalid Position\n");
-        return;
+        return 1;
     }
 
     struct Node* temp = *head;
@@ -123,7 +123,7 @@ void deleteAtN(struct Node** head, int n){
     if (1 == n){
         *head = (*temp).link;
         free(temp);
-        return;
+        return 0;
     }
 
     for (int i = 0; i < n-1; i++){
@@ -133,7 +133,7 @@ void deleteAtN(struct Node** head, int n){
     struct Node* martyr = (*temp).link;
     (*temp).link = (*martyr).link;
     free(martyr);
-
+    return 0;
 }
 
 void reverse (struct Node** head){
@@ -233,10 +233,14 @@ int main(){
                     printf("%d\n", total);
                     scanf("\n%d", &p);
 
-                    insertAtN(&head, data, p);
+                    if (insertAtN(&head, data, p) == 0){
                     printf("NODE INSERTED AT %d POSITION OF THE LINKED LIST\nNumber of NODES are : ", p);
                     total = NoOfNodes(head);
                     printf("%d\n", total);
+                    }
+                    else {
+                        printf("INSERTION FAILED\n");
+                    }
                     break;
                 case 4:
                     break;
@@ -279,10 +283,14 @@ int main(){
                     printf("%d\n", total);
                     scanf("\n%d", &p);
 
-                    deleteAtN(&head, p);
+                    if (deleteAtN(&head, p) == 0){
                     printf("THE %d POSITION NODE OF THE LINKED LIST DELETED\nNumber of NODES are : ", p);
                     total = NoOfNodes(head);
                     printf("%d\n", total);
+                    }
+                    else{
+                        printf("DELETION FAILED\n");
+                    }
                     break;
 
                 case 4:
